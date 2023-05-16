@@ -1,0 +1,6 @@
+.element__rectangle {
+    font-family: "Inter", "Arial", sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

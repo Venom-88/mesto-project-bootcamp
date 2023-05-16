@@ -1,0 +1,15 @@
+.popup__close {
+    font-family: "Inter", "Arial", sans-serif;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background-color: #000;
+    background-image: url(../../../Images/Close_Icon.svg);
+    position: absolute;
+    top: -40px;
+    right: -40px;
+}
+
+.popup__close:hover {
+    opacity: 0.6;
+}

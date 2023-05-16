@@ -1,0 +1,15 @@
+.popup__input-activity {
+  font-family: "Inter", "Arial", sans-serif;
+  border: none;
+  border-bottom: 1px solid #000;
+  opacity: 0.2;
+  margin: 30px 36px 0;
+}
+
+@media screen and (max-width: 1279px) {
+    .popup__input-activity {
+        margin: 30px 22px 0;
+    }
+    
+}
+
