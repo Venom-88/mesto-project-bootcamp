@@ -1,13 +1,19 @@
 .profile__profile-info {
-display: grid;
-grid-template-columns: auto auto;
-grid-template-rows: 39px;
-column-gap: 18px;
-margin: 22px 0 0 30px;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: 39px;
+  column-gap: 18px;
+  margin: 22px 0 0 30px;
 }
 
-@media screen and (max-width:1279px) {
-    .profile__profile-info {
-        margin: 22px 19px 0;
-    }
+@media screen and (max-width: 1279px) {
+  .profile__profile-info {
+    margin: 22px 19px 0;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .profile__profile-info {
+   column-gap: 10px;
+  }
 }

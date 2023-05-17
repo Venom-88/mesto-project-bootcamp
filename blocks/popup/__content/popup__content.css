@@ -4,16 +4,7 @@
     flex-direction: column;
     background-color: #fff;
     color: #000;
-    width: 430px;
-    height: 330px;
     position: relative;
     border-radius: 10px;
-}
-
-@media screen and (max-width: 1279px) {
-    .popup__content {
-        width: 288px;
-        height: 322px;
-
-    }
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
 }
