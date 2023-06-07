@@ -9,7 +9,6 @@ const bigPhoto = popupImage.querySelector('.popup__image')
 const bigPhotoTitle = popupImage.querySelector('.popup__title-image')
 const closePopupImage = popupImage.querySelector('.popup__close')
 
-
 //Добавляем карочки руками
 const template = document
   .getElementById("cardTemplate")
@@ -17,8 +16,6 @@ const template = document
 const cardForm = document.querySelector(".popup_type_cards");
 const inputNameElement = cardForm.querySelector(".popup__input_type_name");
 const inputAboutElement = cardForm.querySelector(".popup__input_type_about");
-const nameCard = template.querySelector(".element__title");
-const linkCard = template.querySelector(".element__image");
 const saveButtonCard = cardForm.querySelector(".popup__save-button");
 const cardContainer = document.querySelector(".elements");
 
@@ -50,26 +47,29 @@ const initialCards = [
   },
 ];
 
-initialCards.forEach((item) => {
-  const newCard = createCard(item);
-  cardContainer.append(newCard);
-  const nameElement = newCard.querySelector(".element__title");
-  const aboutElement = newCard.querySelector(".element__image");
-  nameElement.textContent = item.name;
-  aboutElement.src = item.link;
+initialCards.forEach((item) => { 
+  const newCard = createCard(item); 
+  cardContainer.append(newCard);  
+  });
+
+//Универсальная функция открытия попап
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
+}
+
+//Универсальная функция закрытия попап
+function closePopup(popup) {
+  popup.classList.remove('popup_opened')
+}
+//Открываем попап
+buttonAddCard.addEventListener("click", function (){
+  openPopup(popupCards)
 });
 
-//Открываем попап
-function openPopupCards() {
-  popupCards.classList.toggle("popup_opened");
-}
-buttonAddCard.addEventListener("click", openPopupCards);
-
 //закрываем попап
-function closePopupCards() {
-  popupCards.classList.toggle("popup_opened");
-}
-closeCardButton.addEventListener("click", closePopupCards);
+closeCardButton.addEventListener("click", function (){
+  closePopup(popupCards)
+});
 
 //Лайкаем карточку
 function handleLikeCard(likeButton) {
@@ -77,28 +77,31 @@ function handleLikeCard(likeButton) {
 }
 
 //открываем popup-фото
-function handleOpenPhoto(aboutElement, nameElement){
-    popupImage.classList.add('popup_opened')
-    bigPhoto.src = aboutElement.src
-    bigPhotoTitle.textContent = nameElement.textContent 
+function handleOpenPhoto(cardImage, nameElement){
+  openPopup(popupImage)
+  bigPhoto.src = cardImage.src
+  bigPhoto.alt = nameElement.textContent
+  bigPhotoTitle.textContent = nameElement.textContent 
 }
+
 
 //Удаляем карточку
 function handleDeleteCard(cardElement) {
   cardElement.remove();
 }
 
+
 //Создаем карточки
-function createCard(name) {
+function createCard(item) {
   const cardElement = template.cloneNode(true);
   const nameElement = cardElement.querySelector(".element__title");
-  const aboutElement = cardElement.querySelector(".element__image");
+  const cardImage = cardElement.querySelector(".element__image");
   const delButton = cardElement.querySelector(".element__trash");
   const likeButton = cardElement.querySelector(".element__like");
 
-
-  nameElement.textContent = inputNameElement.value;
-  aboutElement.src = inputAboutElement.value;
+  nameElement.textContent = item.name;
+  cardImage.src = item.link;
+  cardImage.alt = item.name;
 
   //Лайкаем карточку
   likeButton.addEventListener("click", () => handleLikeCard(likeButton));
@@ -107,26 +110,24 @@ function createCard(name) {
   delButton.addEventListener("click", () => handleDeleteCard(cardElement));  
   
   //Открываем popup-фото
-  aboutElement.addEventListener('click', () => handleOpenPhoto(aboutElement, nameElement))
-
+  cardImage.addEventListener('click',  () => handleOpenPhoto(cardImage, nameElement ))
 
   return cardElement;
 }
 
+
 function handleFormSubmit(evt) {
   evt.preventDefault();
-  const newCard = createCard(inputNameElement.value);
+  item = {
+    name: inputNameElement.value,
+    link: inputAboutElement.value
+  }
+  const newCard = createCard(item);
   cardContainer.prepend(newCard);
   popupCards.classList.toggle("popup_opened");
-  cardForm.reset();
 }
-
-//закрываем popup-фото
-function closePhoto(){
-  popupImage.classList.toggle("popup_opened");
-}
-
 cardForm.addEventListener("submit", handleFormSubmit);
-saveButtonCard.addEventListener("click", handleFormSubmit);
-  //Закрываем popup-фото
-  closePopupImage.addEventListener('click', closePhoto)
+//Закрываем popup-фото
+closePopupImage.addEventListener('click', function (){
+  closePopup(popupImage)
+})
