@@ -10,10 +10,20 @@
   text-align: center;
   background-color: #000;
   color: #fff;
-  margin: 18px 36px 37px;
+  margin: 25px 36px 37px;
   padding: 0;
   border-radius: 2px;
   cursor: pointer;
+}
+.popup__save-button:disabled {
+  color: #000;
+  border: 1px solid #000000;
+  background-color: #fff;
+  opacity: 0.2;
+}
+.popup__save-button:disabled:hover {
+  opacity: 0.2;
+  transition: none;
 }
 
 .popup__save-button:hover {

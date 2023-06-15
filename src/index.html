@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>Проект Место</title>
+  </head>
+  <body class="body">
+    <div class="page">
+      <header class="header">
+        <img src="./Images/logo.svg" alt="Логотип " class="header__logo" />
+      </header>
+      <div class="content">
+        <div class="profile">
+          <img
+            src="./Images/avatar.jpg"
+            alt="фото Жак-Ив Кусто"
+            class="profile__avatar"
+          />
+          <div class="profile__profile-info">
+            <h1 class="profile__title">Жак-Ив Кусто</h1>
+            <button class="profile__edit-button"></button>
+
+            <h2 class="profile__subtitle">Исследователь океана</h2>
+          </div>
+          <button class="profile__add-button"></button>
+        </div>
+        <div class="elements"></div>
+      </div>
+      <footer class="footer">
+        <div class="footer__author">© 2023 Дмитрий Макаров</div>
+      </footer>
+    </div>
+
+    <template id="cardTemplate">
+      <div class="element">
+        <img src="" alt="" class="element__image" />
+        <img
+          src="./Images/Trash.svg"
+          alt="Иконка корзины"
+          class="element__trash"
+        />
+        <div class="element__rectangle">
+          <h2 class="element__title"></h2>
+          <button class="element__like"></button>
+        </div>
+      </div>
+    </template>
+
+    <div class="popup popup_type_profile">
+      <div class="popup__content">
+        <button class="popup__close"></button>
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <form action="" class="popup__form" name="profile" novalidate>
+          <input
+            class="popup__input popup__input_type_name"
+            placeholder="Введите имя"
+            id="name"
+            type="text"
+            maxlength="40"
+            minlength="2"
+            required
+          />
+          <span id="error-name" class="popup__error-message"></span>
+          <input
+            class="popup__input popup__input_type_about"
+            placeholder="Род деятельности"
+            id="about"
+            type="text"
+            maxlength="200"
+            minlength="2"
+            required
+          />
+          <span id="error-about" class="popup__error-message"></span>
+          <button type="submit" class="popup__save-button" id="save-button">
+            Сохранить
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="popup popup_type_cards">
+      <div class="popup__content">
+        <button class="popup__close"></button>
+        <h2 class="popup__title">Новое место</h2>
+        <form action="" class="popup__form">
+          <input
+            class="popup__input popup__input_type_name"
+            placeholder="Название"
+            id="card-name"
+            type="text"
+            maxlength="200"
+            minlength="2"
+            required
+          />
+          <span id="error-card-name" class="popup__error-message"></span>
+          <input
+            class="popup__input popup__input_type_about"
+            placeholder="Ссылка на картинку"
+            id="card-link"
+            type="url"
+            maxlength="30"
+            minlength="2"
+            required
+          />
+          <span id="error-card-link" class="popup__error-message"></span>
+          <button class="popup__save-button">Создать</button>
+        </form>
+      </div>
+    </div>
+    <div class="popup popup_type_image">
+      <div class="popup__content-image">
+        <button class="popup__close"></button>
+        <img src="" alt="" class="popup__image" />
+        <h2 class="popup__title-image"></h2>
+      </div>
+    </div>
+    
+    
+  </body>
+</html>
