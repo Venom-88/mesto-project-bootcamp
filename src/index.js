@@ -3,111 +3,67 @@ import { createCard } from "./components/card.js";
 import {
   openPopup,
   closePopup,
-  popupCards,
+  popupProfile,
   popupImage,
-  profilePopupOpened,
 } from "./components/modal.js";
-import { profileForm } from "./components/validate.js";
+import { enableValidation } from "./components/validate.js";
+import { initialCards } from "./components/cardsLoad.js";
+
+const validitySettings = {
+  formSelector: ".form",
+  inputSelector: ".popup__input",
+  buttonSelector: ".popup__save-button",
+};
+enableValidation(validitySettings);
 
 //cards
 const buttonAddCard = document.querySelector(".profile__add-button");
+const popupCard = document.querySelector(".popup_type_cards");
+const buttonClosePopupCard = popupCard.querySelector(".popup__close");
 
-const inputNameCard = popupCards.querySelector(".popup__input_type_name");
-const inputAboutCard = popupCards.querySelector(".popup__input_type_about");
-const closeCardButton = popupCards.querySelector(".popup__close");
-const cardsSaveButton = popupCards.querySelector(".popup__save-button");
-
-const closePopupImage = popupImage.querySelector(".popup__close");
-
-//Добавляем карочки руками
-
-const cardForm = document.querySelector(".popup_type_cards");
-const inputNameElement = cardForm.querySelector(".popup__input_type_name");
-const inputAboutElement = cardForm.querySelector(".popup__input_type_about");
-const saveButtonCard = cardForm.querySelector(".popup__save-button");
-const cardContainer = document.querySelector(".elements");
-
-//Авто-Добавляем карточки
-const initialCards = [
-  {
-    name: "Архыз",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
-  },
-  {
-    name: "Челябинская область",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
-  },
-  {
-    name: "Иваново",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
-  },
-  {
-    name: "Камчатка",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
-  },
-  {
-    name: "Холмогорский район",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
-  },
-  {
-    name: "Байкал",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
-  },
-];
+const buttonClosePopupImage = popupImage.querySelector(".popup__close");
 
 //Открываем попап добавления карточки
 buttonAddCard.addEventListener("click", function () {
-  openPopup(popupCards);
+  openPopup(popupCard);
 });
 
 //закрываем попап добавления карточки
-closeCardButton.addEventListener("click", closePopup);
+buttonClosePopupCard.addEventListener("click", closePopup);
 
 //Закрываем popup-фото
-closePopupImage.addEventListener("click", closePopup);
+buttonClosePopupImage.addEventListener("click", closePopup);
 
 //popups
 const buttonEditProfile = document.querySelector(".profile__edit-button");
-const profileCloseButton = document.querySelector(".popup__close");
+const buttonClosePopupProfile = document.querySelector(".popup__close");
 const inputTypeName = document.querySelector(".popup__input_type_name");
 const profileTitle = document.querySelector(".profile__title");
 const inputTypeAbout = document.querySelector(".popup__input_type_about");
 const profileSubtitle = document.querySelector(".profile__subtitle");
-const profileSaveButton = document.querySelector(".popup__save-button");
-
-const popupWindow = document.querySelector(".popup__content");
-const popupOpened = document.querySelector(".popup_opened");
 
 //заполняем поля
-function inputProfile() {
+function autoFillProfileData() {
   inputTypeName.value = profileTitle.textContent;
   inputTypeAbout.value = profileSubtitle.textContent;
-  openPopup(profilePopupOpened);
+  openPopup(popupProfile);
 }
-//функция сабмита формы
-function handleSubmitForm(evt) {
-  evt.preventDefault();
-  profileTitle.textContent = inputTypeName.value;
-  profileSubtitle.textContent = inputTypeAbout.value;
-  profilePopupOpened.classList.toggle("popup_opened");
-}
-profileForm.addEventListener("submit", handleSubmitForm);
+
+//Добавляем карочки руками
+
+const inputNameElement = popupCard.querySelector(".popup__input_type_name");
+const inputAboutElement = popupCard.querySelector(".popup__input_type_about");
+const cardContainer = document.querySelector(".elements");
+const cardForm = popupCard.querySelector(".popup__form");
+
 //вносим изменение через модальное окно
-function submitForm(evt) {
-  evt.preventDefault();
-}
 
-buttonEditProfile.addEventListener("click", inputProfile);
+buttonEditProfile.addEventListener("click", autoFillProfileData);
 
-profileCloseButton.addEventListener("click", closePopup);
+buttonClosePopupProfile.addEventListener("click", closePopup);
 
-//автодобавление карточек
-initialCards.forEach((item) => {
-  const newCard = createCard(item);
-  cardContainer.append(newCard);
-});
-
-function handleFormSubmit(evt) {
+//сабмит добавления карточки
+function handleSubmitFormCard(evt) {
   evt.preventDefault();
   const item = {
     name: inputNameElement.value,
@@ -115,11 +71,24 @@ function handleFormSubmit(evt) {
   };
   const newCard = createCard(item);
   cardContainer.prepend(newCard);
-  popupCards.classList.toggle("popup_opened");
+  cardForm.reset();
+  closePopup();
 }
 
-cardForm.addEventListener("submit", handleFormSubmit);
+popupCard.addEventListener("submit", handleSubmitFormCard);
 
-//////////////////////////////////
+//автодобавление карточек
+initialCards.forEach((item) => {
+  const newCard = createCard(item);
+  cardContainer.append(newCard);
+});
 
-////////////////////////////////////////////////////////////////////////////
+//функция сабмита формы
+const profileForm = document.forms.profile;
+function handleSubmitProfileForm(evt) {
+  evt.preventDefault();
+  profileTitle.textContent = inputTypeName.value;
+  profileSubtitle.textContent = inputTypeAbout.value;
+  closePopup();
+}
+profileForm.addEventListener("submit", handleSubmitProfileForm);

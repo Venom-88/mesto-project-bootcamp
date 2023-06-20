@@ -1,14 +1,15 @@
 .popup_opened {
-    font-family: "Inter", "Arial", sans-serif;
-    display: flex;
-    
-    background-color: rgba(0, 0, 0, 0.5);
-    top: 0;
-    left: 0;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    visibility: visible;
-    
-}
+  font-family: "Inter", "Arial", sans-serif;
+  display: flex;
 
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  visibility: visible;
+
+  opacity: 1;
+  transition-delay: 0s, 0s;
+}

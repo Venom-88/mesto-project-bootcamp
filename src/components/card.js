@@ -3,8 +3,6 @@ import { openPopup, popupImage } from "./modal.js";
 const template = document
   .getElementById("cardTemplate")
   .content.querySelector(".element");
-const bigPhoto = popupImage.querySelector(".popup__image");
-const bigPhotoTitle = popupImage.querySelector(".popup__title-image");
 
 //Создаем карточки
 export function createCard(item) {
@@ -43,6 +41,8 @@ function handleDeleteCard(cardElement) {
 //открываем popup-фото
 function handleOpenPhoto(cardImage, nameElement) {
   openPopup(popupImage);
+  const bigPhoto = popupImage.querySelector(".popup__image");
+  const bigPhotoTitle = popupImage.querySelector(".popup__title-image");
   bigPhoto.src = cardImage.src;
   bigPhoto.alt = nameElement.textContent;
   bigPhotoTitle.textContent = nameElement.textContent;
