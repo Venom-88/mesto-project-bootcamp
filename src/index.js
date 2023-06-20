@@ -10,7 +10,7 @@ import { enableValidation } from "./components/validate.js";
 import { initialCards } from "./components/cardsLoad.js";
 
 const validitySettings = {
-  formSelector: ".form",
+  formSelector: ".popup__form",
   inputSelector: ".popup__input",
   buttonSelector: ".popup__save-button",
 };
