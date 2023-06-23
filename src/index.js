@@ -7,7 +7,18 @@ import {
   popupImage,
 } from "./components/modal.js";
 import { enableValidation } from "./components/validate.js";
-import { initialCards } from "./components/cardsLoad.js";
+
+import {
+  getInitialCards,
+  setInitialCards,
+  getUserInfo,
+  setUserInfo,
+} from "./components/api.js";
+
+/* getUserInfo().then((res) => {
+  profileTitle.textContent = res.name;
+  profileSubtitle.textContent = res.about;
+}); */
 
 const validitySettings = {
   formSelector: ".popup__form",
@@ -62,33 +73,68 @@ buttonEditProfile.addEventListener("click", autoFillProfileData);
 
 buttonClosePopupProfile.addEventListener("click", closePopup);
 
-//сабмит добавления карточки
+//функция сабмита редактирования профиля
+const profileForm = document.forms.profile;
+
+function handleSubmitProfileForm(evt) {
+  evt.preventDefault();
+  const profileInfo = {
+    name: inputTypeName.value,
+    about: inputTypeAbout.value,
+  };
+  setUserInfo(profileInfo).then((res) => {
+    console.log(res);
+    profileTitle.textContent = res.name;
+    profileSubtitle.textContent = res.about;
+    closePopup();
+  });
+}
+profileForm.addEventListener("submit", handleSubmitProfileForm);
+
+//функция сабмита добавления карточки
 function handleSubmitFormCard(evt) {
   evt.preventDefault();
   const item = {
     name: inputNameElement.value,
     link: inputAboutElement.value,
   };
-  const newCard = createCard(item);
-  cardContainer.prepend(newCard);
-  cardForm.reset();
-  closePopup();
+  setInitialCards(item).then((res) => {
+    const newCard = createCard(res);
+    cardContainer.prepend(newCard);
+    cardForm.reset();
+    closePopup();
+  });
 }
 
 popupCard.addEventListener("submit", handleSubmitFormCard);
+////////////////////////////////////////////////////////////////////////////////////////////////
 
-//автодобавление карточек
-initialCards.forEach((item) => {
-  const newCard = createCard(item);
-  cardContainer.append(newCard);
-});
+/* getInitialCards()
+  .then((res) => {
+    //автодобавление карточек
+    res.forEach((item) => {
+      const newCard = createCard(item, userId);
+      cardContainer.append(newCard);
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  }); */
 
-//функция сабмита формы
-const profileForm = document.forms.profile;
-function handleSubmitProfileForm(evt) {
-  evt.preventDefault();
-  profileTitle.textContent = inputTypeName.value;
-  profileSubtitle.textContent = inputTypeAbout.value;
-  closePopup();
-}
-profileForm.addEventListener("submit", handleSubmitProfileForm);
+let userId;
+const avatar = document.querySelector(".profile__avatar");
+
+Promise.all([getInitialCards(), getUserInfo()])
+  .then(([allCards, userData]) => {
+    userId = userData._id;
+    profileTitle.textContent = userData.name;
+    profileSubtitle.textContent = userData.about;
+    avatar.src = userData.avatar;
+
+    allCards.forEach((item) => {
+      
+      const newCard = createCard(item, userId);
+      cardContainer.append(newCard);
+    });
+  })
+  .catch((e) => console.log(e));
